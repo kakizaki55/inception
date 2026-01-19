@@ -26,5 +26,6 @@ fclean: clean
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env down --rmi all --remove-orphans
 	# Remove dangling build cache to free disk in small VMs
 	docker builder prune -af
+	rm -rf $(DATA_PATH)
 
 .PHONY: all down re clean fclean
