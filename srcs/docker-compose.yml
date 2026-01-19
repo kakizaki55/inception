@@ -32,7 +32,7 @@ services:
     container_name: mariadb
     build: ./requirements/mariadb
     volumes:
-      - /var/lib/mysql
+      - mariadb_data:/var/lib/mysql
     restart: always
     mem_limit: 512m
     networks:
@@ -45,5 +45,15 @@ networks:
     driver: bridge
 
 volumes:
-  wordpress_data: {}
-  mariadb_data: {}
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mkakizak/data/wordpress
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mkakizak/data/mariadb
