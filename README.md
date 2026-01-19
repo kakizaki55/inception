@@ -50,6 +50,12 @@ Create `srcs/.env` Example keys:
     WP_USER_EMAIL=**************
 ```
 
+### Add folder to hold volumes:
+```bash
+sudo mkdir -p /home/mkakizak/data/wordpress /home/mkakizak/data/mariadb
+sudo chown -R mkakizak:mkakizak /home/mkakizak/data
+```
+
 ### Build & Run
 From the repository root:
 ```bash
