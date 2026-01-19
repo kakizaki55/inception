@@ -6,7 +6,7 @@ RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.l
  && apt-get install -y --no-install-recommends ca-certificates debian-archive-keyring \
  && rm -rf /var/lib/apt/lists/
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-server \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*

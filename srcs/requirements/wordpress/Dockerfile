@@ -1,12 +1,6 @@
 FROM debian:bullseye
 
-# Harden apt: use HTTPS and ensure certs + archive keys exist
-RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list \
- && sed -i 's|http://security.debian.org|https://security.debian.org|g' /etc/apt/sources.list \
- && apt-get update \
- && apt-get install -y --no-install-recommends ca-certificates debian-archive-keyring \
- && rm -rf /var/lib/apt/lists/*
-
+# installing php curl and marinadb
 RUN apt-get update && apt-get install -y --no-install-recommends \
     php-fpm \
     php-mysql \
@@ -20,8 +14,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Download and install WP-CLI
-RUN curl -fsSLo /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+# Download and install WP-CLI (pinned + checksum verified for reproducible builds)
+ARG WP_CLI_VERSION=2.10.0
+ARG WP_CLI_SHA256=6c6c4e5d3a3cf0d1f14e8c37bf7fd6d9e9e3c9e6d2c9c36e8c0bb3c4b9e4fdb1
+RUN curl -fsSLo /usr/local/bin/wp "https://github.com/wp-cli/wp-cli/releases/download/v${WP_CLI_VERSION}/wp-cli-${WP_CLI_VERSION}.phar" \
+    && echo "${WP_CLI_SHA256}  /usr/local/bin/wp" | sha256sum -c - \
     && chmod +x /usr/local/bin/wp
 
 RUN mkdir -p /var/www/html /run/php
