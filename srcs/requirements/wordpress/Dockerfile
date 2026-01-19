@@ -3,7 +3,7 @@ FROM debian:bullseye
 # installing php curl and mariadb client
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
-    php7.4-fpm \
+    php-fpm \
     php-mysql \
     php-curl \
     php-gd \
@@ -31,4 +31,4 @@ WORKDIR /var/www/html
 EXPOSE 9000
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-CMD ["php-fpm7.4", "-F"]
+CMD ["php-fpm", "-F"]
