@@ -18,7 +18,7 @@ services:
     container_name: wordpress
     build: ./requirements/wordpress
     volumes:
-      - wordpress_data
+      - wordpress_data:/var/www/html
     restart: always
     mem_limit: 512m
     networks:
