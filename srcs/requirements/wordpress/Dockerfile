@@ -1,7 +1,8 @@
 FROM debian:bullseye
 
-# installing php curl and marinadb
+# installing php curl and mariadb client
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     php-fpm \
     php-mysql \
     php-curl \
