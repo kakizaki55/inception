@@ -1,20 +1,8 @@
 #!/bin/bash
+
 set -e
 
-# Minimal validation (fails fast instead of looping forever on empty vars)
-# : "${MARIA_DB_HOSTNAME:?MARIA_DB_HOSTNAME is required}"
-# : "${MARIA_DB_USER:?MARIA_DB_USER is required}"
-# : "${MARIA_DB_PASSWORD:?MARIA_DB_PASSWORD is required}"
-# : "${MARIA_DB_DATABASE:?MARIA_DB_DATABASE is required}"
-# : "${DOMAIN_NAME:?DOMAIN_NAME is required}"
-# : "${WP_ADMIN:?WP_ADMIN is required}"
-# : "${WP_ADMIN_PASSWORD:?WP_ADMIN_PASSWORD is required}"
-# : "${WP_ADMIN_EMAIL:?WP_ADMIN_EMAIL is required}"
-# : "${WP_USER:?WP_USER is required}"
-# : "${WP_USER_EMAIL:?WP_USER_EMAIL is required}"
-# : "${WP_USER_PASSWORD:?WP_USER_PASSWORD is required}"
-
-#  Wait for MariaDB to be ready (bounded, no infinite loop)
+#  Wait for MariaDB to be ready. 
 i=0
 until MYSQL_PWD="${MARIA_DB_PASSWORD}" mysqladmin ping -h"${MARIA_DB_HOSTNAME}" -u"${MARIA_DB_USER}" --silent; do
   i=$((i+1))
