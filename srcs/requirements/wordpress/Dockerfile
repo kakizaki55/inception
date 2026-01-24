@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     php-mbstring \
     php-xml \
     curl \
-    # wget \
-    # php-curl \
-    # php-gd \
-    # php-zip \
-    # mariadb-client \
+    wget \
+    php-curl \
+    php-gd \
+    php-zip \
+    mariadb-client \
     && rm -rf /var/lib/apt/lists/*
 
 # Download and install WP-CLI (pinned version for reproducible builds)
