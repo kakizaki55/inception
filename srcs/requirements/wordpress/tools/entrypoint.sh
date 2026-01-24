@@ -42,7 +42,12 @@ if [ ! -f wp-config.php ]; then
     chown -R www-data:www-data /var/www/html
 fi
 
+# sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 9000|g' /etc/php/7.4/fpm/pool.d/www.conf
+
 # Configure php-fpm to listen on port 9000
-sed -i 's|listen = /run/php/php7.4-fpm.sock|listen = 9000|g' /etc/php/7.4/fpm/pool.d/www.conf
+cat > /etc/php/7.4/fpm/pool.d/zz-listen.conf <<'EOF'
+[www]
+listen = 9000
+EOF
 
 exec "$@"
