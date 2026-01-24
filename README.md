@@ -1,6 +1,6 @@
 *This project has been created as part of the 42 curriculum by mkakizak.*
 
-# Inception (42)
+# Inception
 
 ## Description
 This project sets up a small web infrastructure using **Docker Compose**. The goal is to run a complete WordPress stack with:
@@ -12,6 +12,29 @@ This project sets up a small web infrastructure using **Docker Compose**. The go
   - one for the **WordPress database** (MariaDB data files)
   - one for the **WordPress website files** (wp-content/uploads, plugins, themes, etc.)
 
+  ### Virtual Machines vs Docker
+  - VMs run full OS per guest; containers share the host kernel.
+  - VMs use more resources and start slower; containers are lighter and faster.
+  - VMs have stronger isolation; containers trade some isolation for speed.
+
+  ### Secrets vs Environment Variables
+  - Env vars are easy to read; secrets are protected by design.
+  - Env vars live in files/CI; secrets live in orchestrators or vaults.
+  - Secrets can be mounted and rotated; env vars last for the container.
+  - Use secrets for credentials; env vars for non-sensitive config.
+
+  ### Docker Network vs Host Network
+  - Bridge network: isolated NICs, needs port mapping.
+  - Host network: uses host stack, no port mapping.
+  - Bridge adds isolation and DNS; host removes isolation and can cause port conflicts.
+  - Host may be faster; bridge is more portable and safer.
+
+  ### Docker Volumes vs Bind Mounts
+  - Volumes: managed by Docker, portable, good for production data.
+  - Bind mounts: direct host paths, great for local dev/editing.
+  - Volumes work across environments; bind mounts depend on host paths/permissions.
+  - Volumes separate app data from host; bind mounts expose host specifics.
+
 
 ## Instructions
 
@@ -20,12 +43,6 @@ Inside the VM you need:
 - Docker Engine
 - Docker Compose (plugin or legacy `docker-compose`)
 - sudo privileges
-
-Check:
-```bash
-docker --version
-docker compose version || docker-compose --version
-```
 
 ## Setup
 
@@ -48,12 +65,6 @@ Create `srcs/.env` Example keys:
     WP_USER=m**************
     WP_USER_PASSWORD=**************
     WP_USER_EMAIL=**************
-```
-
-### Add folder to hold volumes:
-```bash
-sudo mkdir -p /home/mkakizak/data/wordpress /home/mkakizak/data/mariadb
-sudo chown -R mkakizak:mkakizak /home/mkakizak/data
 ```
 
 ### Build & Run
@@ -82,67 +93,6 @@ Remove services + images + volumes (wipes WordPress files + DB):
 ```bash
 make fclean
 ```
-
----
-
-## Verification / Evaluation Commands
-
-### 1) Containers are running
-```bash
-docker ps
-docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env ps
-```
-
-### 2) Only nginx is exposed publicly (443 only)
-```bash
-docker port nginx
-ss -tulpen | grep -E ':443\b' || true
-```
-
-### 3) Network is configured
-```bash
-docker network ls | grep srcs_
-docker network inspect srcs_network | sed -n '1,160p'
-```
-
-### 4) Volumes exist and are attached
-```bash
-docker volume ls | grep -E 'wordpress|mariadb'
-docker inspect wordpress --format '{{json .Mounts}}' | sed 's/},/},\n/g'
-docker inspect mariadb   --format '{{json .Mounts}}' | sed 's/},/},\n/g'
-```
-
-### 5) WordPress files exist in the WordPress volume
-```bash
-docker exec -it wordpress sh -lc 'ls -la /var/www/html | head -n 50'
-docker exec -it nginx sh -lc 'ls -la /var/www/html | head -n 50'
-```
-
-### 6) MariaDB is reachable from WordPress
-```bash
-docker exec -it wordpress sh -lc 'mysqladmin ping -h"$MARIA_DB_HOSTNAME" -u"$MARIA_DB_USER" -p"$MARIA_DB_PASSWORD" --silent && echo "DB OK"'
-```
-
-### 7) Verify WordPress database users (admin + regular user)
-If `wp-cli` is installed in the WordPress container:
-```bash
-docker exec -it wordpress sh -lc 'wp user list --allow-root'
-```
-
-### 8) Persistence check (volumes survive container recreation)
-```bash
-docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env down
-docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env up -d
-```
-Then confirm WP still installed (users still exist) and DB still contains data.
-
-### 9) Restart policy check (crash recovery)
-```bash
-docker kill wordpress
-sleep 2
-docker ps | grep wordpress
-```
-
 ---
 
 ## Resources
@@ -168,5 +118,5 @@ docker ps | grep wordpress
 
 ### AI usage disclosure
 AI (GitHub Copilot) was used to:
-- help draft and refine the README structure
-- suggest verification commands for docker/compose, networking, TLS checks
+- help draft code and readme. to make basic structers that needed to be filled in.
+- Used as a Tutor to explain conpects regarding contianers and best practices(and point me in the right direction to start researching).
