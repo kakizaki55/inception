@@ -7,7 +7,6 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     restart: always
-    mem_limit: 128m
     networks:
       - network
     depends_on:
@@ -20,7 +19,6 @@ services:
     volumes:
       - wordpress_data:/var/www/html
     restart: always
-    mem_limit: 512m
     networks:
       - network
     depends_on:
@@ -34,7 +32,6 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     restart: always
-    mem_limit: 512m
     networks:
       - network
     env_file:
@@ -51,11 +48,11 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/mkakizak/data/wordpress
+      device: ${DATA_PATH}/wordpress
   mariadb_data:
     name: mariadb_data
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/mkakizak/data/mariadb
+      device: ${DATA_PATH}/mariadb
