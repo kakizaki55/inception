@@ -8,8 +8,6 @@ build:
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env build --no-cache
 
 run:
-	# Ensure host data dirs exist for volume backing storage
-	mkdir -p $(DATA_PATH)/mariadb $(DATA_PATH)/wordpress
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env up -d
 
 re:
@@ -17,7 +15,7 @@ re:
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env build --no-cache
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env up -d
 
-clean:
+down:
 	docker-compose -f ./srcs/docker-compose.yml --env-file ./srcs/.env down --remove-orphans
 
 fclean: clean
