@@ -1,12 +1,6 @@
 #!/bin/bash
 set -e
 
-# # Minimal validation to avoid partial/invalid initialization
-# : "${MARIA_DB_DATABASE:?MARIA_DB_DATABASE is required}"
-# : "${MARIA_DB_USER:?MARIA_DB_USER is required}"
-# : "${MARIA_DB_PASSWORD:?MARIA_DB_PASSWORD is required}"
-# : "${MARIA_DB_ROOT_PASSWORD:?MARIA_DB_ROOT_PASSWORD is required}"
-
 # Initialize database if not present
 if [ ! -d "/var/lib/mysql/${MARIA_DB_DATABASE}" ]; then
     mysql_install_db --user=mysql --datadir=/var/lib/mysql

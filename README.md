@@ -15,18 +15,13 @@ This project sets up a small web infrastructure using **Docker Compose**. The go
   ### Virtual Machines vs Docker
   - VMs run full OS per guest; containers share the host kernel.
   - VMs use more resources and start slower; containers are lighter and faster.
-  - VMs have stronger isolation; containers trade some isolation for speed.
 
   ### Secrets vs Environment Variables
   - Env vars are easy to read; secrets are protected by design.
-  - Env vars live in files/CI; secrets live in orchestrators or vaults.
   - Secrets can be mounted and rotated; env vars last for the container.
-  - Use secrets for credentials; env vars for non-sensitive config.
 
   ### Docker Network vs Host Network
-  - Bridge network: isolated NICs, needs port mapping.
   - Host network: uses host stack, no port mapping.
-  - Bridge adds isolation and DNS; host removes isolation and can cause port conflicts.
   - Host may be faster; bridge is more portable and safer.
 
   ### Docker Volumes vs Bind Mounts
@@ -41,7 +36,7 @@ This project sets up a small web infrastructure using **Docker Compose**. The go
 ### Requirements
 Inside the VM you need:
 - Docker Engine
-- Docker Compose (plugin or legacy `docker-compose`)
+- Docker Compose
 - sudo privileges
 
 ## Setup
@@ -119,4 +114,5 @@ make fclean
 ### AI usage disclosure
 AI (GitHub Copilot) was used to:
 - help draft code and readme. to make basic structers that needed to be filled in.
-- Used as a Tutor to explain conpects regarding contianers and best practices(and point me in the right direction to start researching).
+- Used as a Tutor to explain concepts regarding contianers and best practices(and point me in the right direction to start researching).
+

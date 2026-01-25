@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-# installing nginx and openssl (keep image small for VMs)
+# installing nginx and openssl.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends nginx openssl ca-certificates \
     && rm -rf /var/lib/apt/lists/*

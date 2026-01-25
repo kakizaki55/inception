@@ -15,11 +15,9 @@ All containers run on the same Docker network created by Compose.
 
 ### Requirements
 
-read requirements in README.md. 
+Read requirements in README.md. 
 
-
-
-## 2) Build and launch (Makefile + Docker Compose)
+## 2) Build and launch
 
 All main commands are in the root `Makefile`.
 
@@ -34,7 +32,7 @@ make build
 make run
 ```
 
-### 2.3 Build + start (most common)
+### 2.3 Build + start
 ```bash
 make
 ```
@@ -53,7 +51,7 @@ What it does:
 make down
 ```
 
-### 2.6 Full cleanup (images + cache + unused volumes)
+### 2.6 Full cleanup
 ```bash
 make fclean
 ```
@@ -63,7 +61,7 @@ Notes:
 
 ---
 
-## 3) Useful Docker/Compose commands (operations)
+## 3) Useful Docker/Compose commands
 
 All commands below assume you run them from the project root.
 
@@ -117,7 +115,7 @@ Persistent data is stored under:
 
 Because these paths are on volumes, deleting/rebuilding containers does **not** delete your site/data.
 
-### 4.3 How to reset data (fresh install)
+### 4.3 How to reset data
 If you want a completely fresh WordPress + database:
 1) Stop containers:
 ```bash
@@ -125,7 +123,7 @@ make fclean
 ```
 2) Delete the host data directories:
 ```bash
-sudo rm -rf /home/mkakizak/data/wordpress /home/mkakizak/data/mariadb
+sudo rm -rf `${DATA_PATH}`
 ```
 3) Rebuild and start:
 ```bash
